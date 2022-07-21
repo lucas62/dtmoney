@@ -5,12 +5,11 @@
     "jest": true
   },
   "extends": [
-    "plugin:react/recommended",
     "standard",
-    "plugin:@typescript-esltin/recommended",
-    "prettier/@typescript-eslint",
-    "prettier/standard",
-    "prettier/react"
+    "prettier",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
