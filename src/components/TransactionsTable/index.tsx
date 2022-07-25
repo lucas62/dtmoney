@@ -3,7 +3,7 @@ import { TransactionsContext } from '../../TransactionsContext'
 import { Container } from './styles'
 
 export function TransactionsTable() {
-    const transactions = useContext(TransactionsContext)
+    const { transactions } = useContext(TransactionsContext)
 
     return (
         <Container>
@@ -30,7 +30,7 @@ export function TransactionsTable() {
                             <td>{transaction.category}</td>
                             <td>
                                 {new Intl.DateTimeFormat('pt-BR').format(
-                                    new Date(transaction.createAt)
+                                    new Date(transaction.createdAt)
                                 )}
                             </td>
                         </tr>
