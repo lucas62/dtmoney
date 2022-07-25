@@ -2,11 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { api } from '../../services/api'
 import { Container } from './styles'
 
+interface Transaction {
+    id: number
+    title: string
+    type: string
+    category: string
+    amount: number
+    createAt: string
+}
+
 export function TransactionsTable() {
-    const [transactions, setTransactions] = useState<any[]>([])
+    const [transactions, setTransactions] = useState<Transaction[]>([])
 
     useEffect(() => {
-        api.get('/transactions').then((res: any) => setTransactions(res.data))
+        api.get('/transactions').then(response =>
+            setTransactions(response.data.transactions)
+        )
     }, [])
 
     return (
@@ -22,17 +33,23 @@ export function TransactionsTable() {
                 </thead>
 
                 <tbody>
-                    {!!transactions &&
-                        transactions.map((transaction, index) => (
-                            <tr key={index}>
-                                <td>{transaction.title}</td>
-                                <td className="deposit">
-                                    {transaction.amount}
-                                </td>
-                                <td>{transaction.category}</td>
-                                <td>{transaction.creatAt}</td>
-                            </tr>
-                        ))}
+                    {transactions.map((transaction, index) => (
+                        <tr key={index}>
+                            <td>{transaction.title}</td>
+                            <td className={transaction.type}>
+                                {new Intl.NumberFormat('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                }).format(transaction.amount)}
+                            </td>
+                            <td>{transaction.category}</td>
+                            <td>
+                                {new Intl.DateTimeFormat('pt-BR').format(
+                                    new Date(transaction.createAt)
+                                )}
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </Container>
