@@ -1,10 +1,9 @@
-import React, { FormEvent, useState, useContext } from 'react'
+import React, { FormEvent, useState } from 'react'
 import Modal from 'react-modal'
 import closeImg from '../../assets/close.svg'
 import incomeImg from '../../assets/income.svg'
 import outcomeImg from '../../assets/outcome.svg'
-import { api } from '../../services/api'
-import { TransactionsContext } from '../../TransactionsContext'
+import { useTransactions } from '../../hooks/useTransactions'
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
 
 interface NewTransactionModalProps {
@@ -16,7 +15,7 @@ export function NewTransactionModal({
     isOpen,
     onRequestClose
 }: NewTransactionModalProps) {
-    const { createTransaction } = useContext(TransactionsContext)
+    const { createTransaction } = useTransactions()
 
     const [title, setTitle] = useState('')
     const [amount, setAmount] = useState(0)
@@ -42,7 +41,11 @@ export function NewTransactionModal({
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
-            <button type="button" className="react-modal-close">
+            <button
+                type="button"
+                className="react-modal-close"
+                onClick={onRequestClose}
+            >
                 <img src={closeImg} alt="Fechar modal" />
             </button>
 
@@ -56,6 +59,7 @@ export function NewTransactionModal({
                     onChange={event => setTitle(event.target.value)}
                 />
                 <input
+                    min={0}
                     type="number"
                     placeholder="Valor"
                     value={amount}
